@@ -53,18 +53,19 @@ func main() {
                 print("만약에 학생의 성적 중 해당 과목이 존재하면 기존 점수가 갱신됩니다.")
                 let input = readLine()
                 if let input = input {
-                    if input.isEmpty {
-                        print("입력이 잘못되었습니다. 다시 확인해주세요.")
-                    } else {
-                        addGrade(input)
-                    }
+                    addGrade(input)
                 } else {
                     print("입력이 잘못되었습니다. 다시 확인해주세요.")
                 }
             case "4":
-                // 성적 삭제
-                print("학생 추가")
-
+                print("성적을 삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.")
+                print("입력예) Mickey Swift")
+                let input = readLine()
+                if let input = input {
+                    removeGrade(input)
+                } else {
+                    print("입력이 잘못되었습니다. 다시 확인해주세요.")
+                }
             case "5":
                 // 평점 보기
                 print("학생 추가")
@@ -126,6 +127,28 @@ func addGrade(_ data: String) {
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
         }
+    } else {
+        print("\(name) 학생을 찾지 못했습니다.")
+    }
+}
+
+func removeGrade(_ data: String) {
+    let data = data.components(separatedBy: " ")
+    if data.count != 2 {
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        return
+    }
+    let name = data[0], subject = data[1]
+    
+    let index = findStudent(name)
+    if index != -1 {
+        if let _ = students[index].gradeInfo.removeValue(forKey: subject) {
+            print("\(name) 학생의 \(subject) 과목의 성적이 삭제되었습니다.")
+        } else {
+            print("\(subject) 과목을 찾지 못했습니다.")
+        }
+    } else {
+        print("\(name) 학생을 찾지 못했습니다.")
     }
 }
 

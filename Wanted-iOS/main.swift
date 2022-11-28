@@ -67,11 +67,18 @@ func main() {
                     print("입력이 잘못되었습니다. 다시 확인해주세요.")
                 }
             case "5":
-                // 평점 보기
-                print("학생 추가")
+                print("평점을 알고싶은 학생의 이름을 입력해주세요")
+                let input = readLine()
+                if let input = input {
+                    if input.isEmpty {
+                        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+                    } else {
+                        calculateGPA(input)
+                    }
+                }
 
             case "X":
-                // 종료
+                print("프로그램을 종료합니다...")
                 return
             default:
                 print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
@@ -147,6 +154,29 @@ func removeGrade(_ data: String) {
         } else {
             print("\(subject) 과목을 찾지 못했습니다.")
         }
+    } else {
+        print("\(name) 학생을 찾지 못했습니다.")
+    }
+}
+
+func calculateGPA(_ name: String) {
+    let index = findStudent(name)
+    
+    if index != -1 {
+        var sum = 0.0
+        let count = students[index].gradeInfo.count
+        if count == 0 {
+            print("평점: 0")
+            return
+        }
+        for (subject, score) in students[index].gradeInfo {
+            print("\(subject): \(score)")
+            if let score = grade[score] {
+                sum += score
+            }
+        }
+        let gpa = String(format: "%.2f", sum / Double(count))
+        print("평점 : \(gpa)")
     } else {
         print("\(name) 학생을 찾지 못했습니다.")
     }
